@@ -8,11 +8,11 @@ class Player:
         self.size = size
         self.barrier = barrier
 
-        self.character1_stand = gs.CHARACTER1_STAND
-        self.character1_walk_right = gs.CHARACTER1_WALK_RIGHT
-        self.character1_walk_left = gs.CHARACTER1_WALK_LEFT
-        self.character1_dodge_right = gs.CHARACTER1_DODGE_RIGHT
-        self.character1_dodge_left = gs.CHARACTER1_DODGE_LEFT
+        self.char1_stand = gs.CHAR1_STAND
+        self.char1_walk_right = gs.CHAR1_WALK_RIGHT
+        self.char1_walk_left = gs.CHAR1_WALK_LEFT
+        self.char1_dodge_right = gs.CHAR1_DODGE_RIGHT
+        self.char1_dodge_left = gs.CHAR1_DODGE_LEFT
         self.anim_count = None
         self.width, self.height = 96, 128
         self.x, self.y = (self.size[0] - self.width) // 2, self.size[1] - self.height - 32
@@ -32,8 +32,6 @@ class Player:
         keys = pg.key.get_pressed()
 
         print(self.max_dashes)
-
-
 
         # передвижение персонажа вправо
         if keys[pg.K_RIGHT] and self.x < self.size[0] - self.width - self.barrier:
@@ -102,20 +100,20 @@ class Player:
     def draw_player(self):
         if self.is_right_dodge is False and self.is_left_dodge is False:
             if self.is_right:
-                self.win.blit(self.character1_walk_right[self.anim_count // 8], (self.x, self.y))
+                self.win.blit(self.char1_walk_right[self.anim_count // 8], (self.x, self.y))
                 self.anim_count += 1
             elif self.is_left:
-                self.win.blit(self.character1_walk_left[self.anim_count // 8], (self.x, self.y))
+                self.win.blit(self.char1_walk_left[self.anim_count // 8], (self.x, self.y))
                 self.anim_count += 1
             else:
-                self.win.blit(self.character1_stand, (self.x, self.y))
+                self.win.blit(self.char1_stand, (self.x, self.y))
 
         else:
             if self.is_right_dodge:
-                self.win.blit(self.character1_dodge_right, (self.x, self.y))
-            elif self.is_left_dodge:
-                self.win.blit(self.character1_dodge_left, (self.x, self.y))
+                self.win.blit(self.char1_dodge_right, (self.x, self.y))
 
+            elif self.is_left_dodge:
+                self.win.blit(self.char1_dodge_left, (self.x, self.y))
 
         # self.rect = self.rect.move(self.x, self.y)
 

@@ -11,13 +11,13 @@ BG = pg.image.load(os.path.join(GFX, 'backgroundForest.jpg'))
 LEVEL1_BARRIER_BLOCK = pg.image.load(os.path.join(GFX, 'level_1_barrier_block.jpg'))
 LEVEL1_DOWN_BLOCK = pg.image.load(os.path.join(GFX, 'level_1_down_block.jpg'))
 
-CHARACTER1_STAND = pg.image.load(os.path.join(GFX, 'character1/character1_idle.png'))
+CHAR1_STAND = pg.image.load(os.path.join(GFX, 'character1/character1_idle.png'))
 
-CHARACTER1_DODGE_RIGHT = pg.image.load(os.path.join(GFX, 'character1/character1_dodge_right.png'))
+CHAR1_DODGE_RIGHT = pg.image.load(os.path.join(GFX, 'character1/character1_dodge_right.png'))
 
-CHARACTER1_DODGE_LEFT = pg.image.load(os.path.join(GFX, 'character1/character1_dodge_left.png'))
+CHAR1_DODGE_LEFT = pg.image.load(os.path.join(GFX, 'character1/character1_dodge_left.png'))
 
-CHARACTER1_WALK_RIGHT = [
+CHAR1_WALK_RIGHT = [
     pg.image.load(os.path.join(GFX, 'character1/walk_right/character1_walk_right1.png')),
     pg.image.load(os.path.join(GFX, 'character1/walk_right/character1_walk_right2.png')),
     pg.image.load(os.path.join(GFX, 'character1/walk_right/character1_walk_right3.png')),
@@ -28,7 +28,7 @@ CHARACTER1_WALK_RIGHT = [
     pg.image.load(os.path.join(GFX, 'character1/walk_right/character1_walk_right8.png')),
 ]
 
-CHARACTER1_WALK_LEFT = [
+CHAR1_WALK_LEFT = [
     pg.image.load(os.path.join(GFX, 'character1/walk_left/character1_walk_left1.png')),
     pg.image.load(os.path.join(GFX, 'character1/walk_left/character1_walk_left2.png')),
     pg.image.load(os.path.join(GFX, 'character1/walk_left/character1_walk_left3.png')),
