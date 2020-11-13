@@ -1,10 +1,10 @@
 import pygame as pg
 from data import graphics as gs
-from game_objects import Player
+from game_objects import Player, Bomb
 from level_1 import Level1
 
 
-# TODO: оптимизировать отрисовку изображений
+# TODO: доделать отрисовку бомб
 
 class Game:
 
@@ -13,13 +13,16 @@ class Game:
         self.fps = 60
         self.size = [640, 800]
         self.win = pg.display.set_mode(self.size)
-        self.barrier = 32
+        self.barrier = 0
         self.bg_img = gs.BG
         self.background = self.win.blit(self.bg_img, (0, 0))
 
     def new_game(self):
         player = Player(window=self.win, size=self.size, barrier=self.barrier)
+        # bomb = Bomb(window=self.win, size=self.size, barrier=self.barrier)
         level_1 = Level1(window=self.win, size=self.size)
+
+        bombs = []
 
         clock = pg.time.Clock()
 
@@ -37,9 +40,14 @@ class Game:
 
             self.background = self.win.blit(self.bg_img, (0, 0))
 
-            level_1.generate()
+            if len(bombs) < 1:
+                bombs.append(Bomb(window=self.win, size=self.size, barrier=self.barrier))
+
+            for item in bombs:
+                bombs.draw()
             player.control()
-            player.draw_player()
+            player.draw()
+            level_1.generate()
 
             self.update()
 

@@ -3,6 +3,7 @@ from data import graphics as gs
 
 
 class Player:
+
     def __init__(self, window, size, barrier):
         self.win = window
         self.size = size
@@ -31,8 +32,6 @@ class Player:
     def control(self):
         keys = pg.key.get_pressed()
 
-        print(self.max_dashes)
-
         # передвижение персонажа вправо
         if keys[pg.K_RIGHT] and self.x < self.size[0] - self.width - self.barrier:
             self.x += self.speed[0]
@@ -52,9 +51,9 @@ class Player:
             self.anim_count = 0
 
         if self.is_right_dodge:
-            self.dash_right()
+            self.dodge_right()
         elif self.is_left_dodge:
-            self.dash_left()
+            self.dodge_left()
 
         # блок проверки переката
         if self.max_dashes > 0:
@@ -77,8 +76,8 @@ class Player:
         if self.anim_count + 1 >= 60:
             self.anim_count = 0
 
-    # дэш вправо
-    def dash_right(self):
+    # перекат вправо
+    def dodge_right(self):
         if self.right_dash_count >= 0:
             self.x += self.right_dash_count * 2
             self.right_dash_count -= 1
@@ -87,8 +86,8 @@ class Player:
             self.is_right_dodge = False
             self.max_dashes -= 1
 
-    # дэш влево
-    def dash_left(self):
+    # перекат влево
+    def dodge_left(self):
         if self.left_dash_count >= 0:
             self.x -= self.left_dash_count * 2
             self.left_dash_count -= 1
@@ -97,7 +96,7 @@ class Player:
             self.is_left_dodge = False
             self.max_dashes -= 1
 
-    def draw_player(self):
+    def draw(self):
         if self.is_right_dodge is False and self.is_left_dodge is False:
             if self.is_right:
                 self.win.blit(self.char1_walk_right[self.anim_count // 8], (self.x, self.y))
@@ -111,12 +110,22 @@ class Player:
         else:
             if self.is_right_dodge:
                 self.win.blit(self.char1_dodge_right, (self.x, self.y))
-
             elif self.is_left_dodge:
                 self.win.blit(self.char1_dodge_left, (self.x, self.y))
 
-        # self.rect = self.rect.move(self.x, self.y)
 
+class Bomb:
 
-class Ball:
-    pass
+    def __init__(self, window, size, barrier):
+        import random
+        self.win = window
+        self.size = size
+        self.barrier = barrier
+
+        self.bomb_img = gs.BOMB
+        self.bomb_rect = self.bomb_img.get_rect()
+        self.bomb_rect = self.bomb_rect.move(random.randint(0, self.size[0] - self.bomb_img.get_width()), -90)
+
+    def draw(self):
+        self.bomb_rect = self.bomb_rect.move(0, 3)
+        self.win.blit(self.bomb_img, self.bomb_rect)
