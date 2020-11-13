@@ -1,7 +1,10 @@
 import pygame as pg
+from data import graphics as gs
 from game_objects import Player
 from level_1 import Level1
 
+
+# TODO: оптимизировать отрисовку изображений
 
 class Game:
 
@@ -11,7 +14,8 @@ class Game:
         self.size = [640, 800]
         self.win = pg.display.set_mode(self.size)
         self.barrier = 32
-        self.background = self.win.fill((255, 255, 255))
+        self.bg_img = gs.BG
+        self.background = self.win.blit(self.bg_img, (0, 0))
 
     def new_game(self):
         player = Player(window=self.win, size=self.size, barrier=self.barrier)
@@ -31,7 +35,7 @@ class Game:
                 if event.type == pg.QUIT:
                     running = False
 
-            self.background = self.win.fill((255, 255, 255))
+            self.background = self.win.blit(self.bg_img, (0, 0))
 
             level_1.generate()
             player.control()

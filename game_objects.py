@@ -1,4 +1,5 @@
 import pygame as pg
+from data import graphics as gs
 
 
 class Player:
@@ -7,10 +8,15 @@ class Player:
         self.size = size
         self.barrier = barrier
 
+        self.player1_walk_right = gs.PLAYER1_WALK_RIGHT
+        self.anim = None
         self.color_red = (255, 0, 0)
-        self.width, self.height = 30, 55
+        self.width, self.height = 80, 110
         self.x, self.y = (self.size[0] - self.width) // 2, self.size[1] - self.height - 32
         self.speed = (2, 2)
+
+        self.right = False
+        self.left = False
 
         self.max_dashes = 5
         self.right_dash_count = 8
@@ -34,7 +40,6 @@ class Player:
             # вправо
             if keys[pg.K_RIGHT] and keys[pg.K_SPACE]:
                 self.is_right_dash = True
-
             # влево
             elif keys[pg.K_LEFT] and keys[pg.K_SPACE]:
                 self.is_left_dash = True
@@ -48,10 +53,18 @@ class Player:
         # передвижение персонажа вправо
         if keys[pg.K_RIGHT] and self.x < self.size[0] - self.width - self.barrier:
             self.x += self.speed[0]
-
+            self.right = True
+            self.left = False
         # передвижение персонажа влево
-        if keys[pg.K_LEFT] and self.x > self.barrier:
+        elif keys[pg.K_LEFT] and self.x > self.barrier:
             self.x -= self.speed[0]
+            self.right = False
+            self.left = True
+        # персонаж стоит
+        else:
+            self.anim = gs.PLAYER1_STAND
+            self.right = False
+            self.left = False
 
     # дэш вправо
     def dash_right(self):
@@ -74,7 +87,7 @@ class Player:
             self.max_dashes -= 1
 
     def draw_player(self):
-        self.rect = pg.draw.rect(self.win, self.color_red, (self.x, self.y, self.width, self.height))
+        self.win.blit(self.anim, (self.x, self.y))
         # self.rect = self.rect.move(self.x, self.y)
 
 
