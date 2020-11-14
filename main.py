@@ -4,7 +4,7 @@ from game_objects import Player, Bomb
 from level_1 import Level1
 
 
-# TODO:
+# TODO: доделать урон персонажу
 
 class Game:
 
@@ -43,13 +43,14 @@ class Game:
                 if _bomb.bomb_rect.y > self.size[1]:
                     bombs.pop(bombs.index(_bomb))
 
-                if _bomb.bomb_rect.bottom > player.y and _bomb.bomb_rect.left < player.x and _bomb.bomb_rect.right < player.x:
+                if _bomb.bomb_rect.bottom > player.y and _bomb.bomb_rect.left < player.x + player.width and \
+                        _bomb.bomb_rect.right > player.x:
                     print("Уничтожен")
 
             keys = pg.key.get_pressed()
 
             if keys[pg.K_f]:
-                if len(bombs) < 1:
+                if len(bombs) < 3:
                     print("Успешно")
                     bombs.append(Bomb(window=self.win, size=self.size, barrier=self.barrier))
             for bomb in bombs:

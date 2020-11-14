@@ -136,4 +136,3 @@ class Bomb:
     def draw(self):
         self.bomb_rect = self.bomb_rect.move(0, 3)
         self.win.blit(self.bomb_img, self.bomb_rect)
-        pg.draw.rect(self.win, (230, 0, 0), self.bomb_rect)
