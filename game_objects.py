@@ -15,6 +15,7 @@ class Player:
         self.char1_dodge_right = gs.CHAR1_DODGE_RIGHT
         self.char1_dodge_left = gs.CHAR1_DODGE_LEFT
         self.anim_count = None
+
         self.width, self.height = 96, 128
         self.x, self.y = (self.size[0] - self.width) // 2, self.size[1] - self.height - 32
         self.speed = (2, 2)
@@ -124,10 +125,15 @@ class Bomb:
 
         self.bomb_img = gs.BOMB
         self.bomb_rect = self.bomb_img.get_rect()
-        self.bomb_rect = self.bomb_rect.move(random.randint(0, self.size[0] - self.bomb_img.get_width()), random.randrange(-90, -120, -10))
-        self.y = self.bomb_rect.bottom
+        self.bomb_rect = self.bomb_rect.move(random.randint(0, self.size[0] - self.bomb_img.get_width()),
+                                             random.randrange(-90, -120, -10))
+        self.width = self.bomb_rect.width
+        self.height = self.bomb_rect.height
+
+        self.x = self.bomb_rect.centerx
+        self.y = self.bomb_rect.centery
 
     def draw(self):
-        self.y = self.bomb_rect.bottom
         self.bomb_rect = self.bomb_rect.move(0, 3)
         self.win.blit(self.bomb_img, self.bomb_rect)
+        pg.draw.rect(self.win, (230, 0, 0), self.bomb_rect)
