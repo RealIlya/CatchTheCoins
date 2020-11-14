@@ -124,8 +124,10 @@ class Bomb:
 
         self.bomb_img = gs.BOMB
         self.bomb_rect = self.bomb_img.get_rect()
-        self.bomb_rect = self.bomb_rect.move(random.randint(0, self.size[0] - self.bomb_img.get_width()), -90)
+        self.bomb_rect = self.bomb_rect.move(random.randint(0, self.size[0] - self.bomb_img.get_width()), random.randrange(-90, -120, -10))
+        self.y = self.bomb_rect.bottom
 
     def draw(self):
+        self.y = self.bomb_rect.bottom
         self.bomb_rect = self.bomb_rect.move(0, 3)
         self.win.blit(self.bomb_img, self.bomb_rect)
