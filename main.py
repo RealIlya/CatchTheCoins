@@ -1,12 +1,12 @@
 import pygame as pg
 from data import graphics as gs
 from game_objects import Player, Bomb
-from level_1 import Level1
+from levels import level_1 as L1
+
+# TODO: добавить новые "опасные объекты"
 
 
-# TODO: доделать урон персонажу
-
-class Game:
+class GameLevel1:
 
     def __init__(self):
         pg.init()
@@ -17,17 +17,17 @@ class Game:
         self.bg_img = gs.BG
         self.background = self.win.blit(self.bg_img, (0, 0))
 
-    def new_game(self):
+    def new_game_level1(self):
         player = Player(window=self.win, size=self.size, barrier=self.barrier)
-        level_1 = Level1(window=self.win, size=self.size)
+        level_1 = L1.Level1(window=self.win, size=self.size)
 
         bombs = []
-
+        hp = 6
+        hit = 0
         clock = pg.time.Clock()
 
         running = True
         while running:
-
             clock.tick(self.fps)
 
             FPS_now = clock.get_fps()
@@ -39,24 +39,28 @@ class Game:
 
             self.background = self.win.blit(self.bg_img, (0, 0))
 
+            if bombs.count()
+
             for _bomb in bombs:
                 if _bomb.bomb_rect.y > self.size[1]:
                     bombs.pop(bombs.index(_bomb))
 
                 if _bomb.bomb_rect.bottom > player.y and _bomb.bomb_rect.left < player.x + player.width and \
-                        _bomb.bomb_rect.right > player.x:
-                    print("Уничтожен")
+                        _bomb.bomb_rect.right > player.x and hit == 0:
+                    hp -= 1
+                    hit = 1
 
             keys = pg.key.get_pressed()
 
-            if keys[pg.K_f]:
-                if len(bombs) < 3:
+            if keys[pg.K_RETURN]:
+                if len(bombs) < 2:
                     print("Успешно")
                     bombs.append(Bomb(window=self.win, size=self.size, barrier=self.barrier))
+                    hit = 0
             for bomb in bombs:
                 bomb.draw()
 
-            print(player.x)
+            print(hp)
 
             player.control()
             player.draw()
@@ -71,5 +75,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game()
-    game.new_game()
+    game = GameLevel1()
+    game.new_game_level1()

@@ -34,12 +34,12 @@ class Player:
         keys = pg.key.get_pressed()
 
         # передвижение персонажа вправо
-        if keys[pg.K_RIGHT] and self.x < self.size[0] - self.width - self.barrier:
+        if keys[pg.K_d] and self.x < self.size[0] - self.width - self.barrier:
             self.x += self.speed[0]
             self.is_right = True
             self.is_left = False
         # передвижение персонажа влево
-        elif keys[pg.K_LEFT] and self.x > self.barrier:
+        elif keys[pg.K_a] and self.x > self.barrier:
             self.x -= self.speed[0]
             self.is_right = False
             self.is_left = True
@@ -59,12 +59,12 @@ class Player:
         # блок проверки переката
         if self.max_dashes > 0:
             # вправо
-            if keys[pg.K_RIGHT] and keys[pg.K_SPACE]:
+            if keys[pg.K_d] and keys[pg.K_SPACE]:
                 self.is_right_dodge = True
                 self.is_right = False
                 self.is_left = False
             # влево
-            elif keys[pg.K_LEFT] and keys[pg.K_SPACE]:
+            elif keys[pg.K_a] and keys[pg.K_SPACE]:
                 self.is_left_dodge = True
                 self.is_right = False
                 self.is_left = False
