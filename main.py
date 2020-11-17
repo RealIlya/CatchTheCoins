@@ -1,6 +1,7 @@
 import pygame as pg
+
 from data import graphics as gs
-from game_objects import Player, Bomb
+from game_objects import Player, Bomb, HUD
 from levels import level_1 as L1
 
 # TODO: добавить новые "опасные объекты"
@@ -18,6 +19,7 @@ class GameLevel1:
         self.background = self.win.blit(self.bg_img, (0, 0))
 
     def new_game_level1(self):
+        hud = HUD(window=self.win, size=self.size, barrier=self.barrier)
         player = Player(window=self.win, size=self.size, barrier=self.barrier)
         level_1 = L1.Level1(window=self.win, size=self.size)
 
@@ -39,7 +41,7 @@ class GameLevel1:
 
             self.background = self.win.blit(self.bg_img, (0, 0))
 
-            if bombs.count()
+            # if bombs.count()
 
             for _bomb in bombs:
                 if _bomb.bomb_rect.y > self.size[1]:
@@ -54,7 +56,6 @@ class GameLevel1:
 
             if keys[pg.K_RETURN]:
                 if len(bombs) < 2:
-                    print("Успешно")
                     bombs.append(Bomb(window=self.win, size=self.size, barrier=self.barrier))
                     hit = 0
             for bomb in bombs:
@@ -62,6 +63,7 @@ class GameLevel1:
 
             print(hp)
 
+            hud.draw_hp()
             player.control()
             player.draw()
             level_1.generate()

@@ -1,4 +1,5 @@
 import pygame as pg
+
 from data import graphics as gs
 
 
@@ -136,3 +137,20 @@ class Bomb:
     def draw(self):
         self.bomb_rect = self.bomb_rect.move(0, 3)
         self.win.blit(self.bomb_img, self.bomb_rect)
+
+
+class HUD:
+
+    def __init__(self, window, size, barrier):
+        self.win = window
+        self.size = size
+        self.barrier = barrier
+
+        self.hp0_img = gs.HP0
+        self.hp1_img = gs.HP1
+        self.hp2_img = gs.HP2
+
+        self.x, self.y = 10, 10
+
+    def draw_hp(self):
+        self.win.blit(self.hp2_img, (self.x, self.y))

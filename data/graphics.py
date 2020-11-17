@@ -40,3 +40,7 @@ CHAR1_WALK_LEFT = [
 ]
 
 BOMB = pg.image.load(os.path.join(GFX, 'danger_objects/bomb.png'))
+
+HP0 = pg.image.load(os.path.join(GFX, 'hp0.png'))
+HP1 = pg.image.load(os.path.join(GFX, 'hp1.png'))
+HP2 = pg.image.load(os.path.join(GFX, 'hp2.png'))
