@@ -30,6 +30,7 @@ class GameLevel1:
 
         running = True
         while running:
+            pg.time.delay(10)
             clock.tick(self.fps)
 
             FPS_now = clock.get_fps()
@@ -39,13 +40,16 @@ class GameLevel1:
                 if event.type == pg.QUIT:
                     running = False
 
-            # if bombs.count()
+            if self.hp == 0:
+                self.new_game_level1()
+
             self.background = self.win.blit(self.bg_img, (0, 0))
             for _bomb in bombs:
                 if _bomb.bomb_rect.y > self.size[1]:
                     bombs.pop(bombs.index(_bomb))
 
-                if _bomb.bomb_rect.bottom > self.player.y and _bomb.bomb_rect.left < self.player.x + self.player.width and \
+                if _bomb.bomb_rect.bottom > self.player.y and \
+                        _bomb.bomb_rect.left < self.player.x + self.player.width and \
                         _bomb.bomb_rect.right > self.player.x and hit == 0:
                     self.hp -= 1
                     hit = 1
