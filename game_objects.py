@@ -6,9 +6,7 @@ from data import graphics as gs
 class Player:
 
     def __init__(self, window, size, barrier):
-        self.win = window
-        self.size = size
-        self.barrier = barrier
+        self.win, self.size, self.barrier = window, size, barrier
 
         self.char1_stand = gs.CHAR1_STAND
         self.char1_walk_right = gs.CHAR1_WALK_RIGHT
@@ -20,6 +18,7 @@ class Player:
         self.width, self.height = 96, 128
         self.x, self.y = (self.size[0] - self.width) // 2, self.size[1] - self.height - 32
         self.speed = (2, 2)
+        self.hp = 2
 
         self.is_right = False
         self.is_left = False
@@ -120,9 +119,7 @@ class Bomb:
 
     def __init__(self, window, size, barrier):
         import random
-        self.win = window
-        self.size = size
-        self.barrier = barrier
+        self.win, self.size, self.barrier = window, size, barrier
 
         self.bomb_img = gs.BOMB
         self.bomb_rect = self.bomb_img.get_rect()
@@ -134,14 +131,16 @@ class Bomb:
         self.x = self.bomb_rect.centerx
         self.y = self.bomb_rect.centery
 
+        self.speed_y = 5
+
     def draw(self):
-        self.bomb_rect = self.bomb_rect.move(0, 3)
+        self.bomb_rect = self.bomb_rect.move(0, self.speed_y)
         self.win.blit(self.bomb_img, self.bomb_rect)
 
 
 class HUD:
 
-    def __init__(self, window, size, barrier):
+    def __init__(self, window, size, barrier, status_hp):
         self.win = window
         self.size = size
         self.barrier = barrier
@@ -149,8 +148,16 @@ class HUD:
         self.hp0_img = gs.HP0
         self.hp1_img = gs.HP1
         self.hp2_img = gs.HP2
+        self.status_hp = status_hp
 
         self.x, self.y = 10, 10
 
     def draw_hp(self):
-        self.win.blit(self.hp2_img, (self.x, self.y))
+        if self.status_hp == 2:
+            self.win.blit(self.hp2_img, (self.x, self.y))
+
+        if self.status_hp == 1:
+            self.win.blit(self.hp1_img, (self.x, self.y))
+
+        if self.status_hp == 0:
+            self.win.blit(self.hp0_img, (self.x, self.y))
