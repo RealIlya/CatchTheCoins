@@ -8,11 +8,27 @@ class Player:
     def __init__(self, window, size, barrier):
         self.win, self.size, self.barrier = window, size, barrier
 
-        # self.frames = [gs.CHAR1_WALK_RIGHT, gs.CHAR1_WALK_LEFT]
-        # self.frames_rect = [self.frames[0][0].get_rect(), self.frames[1].get_rect()]
-        # self.frames_rect = [self.frames_rect[0].move(), self.frames_rect[1].move()]
+        self.frames_right = [
+            gs.CHAR1_WALK_RIGHT[0].get_rect(),
+            gs.CHAR1_WALK_RIGHT[1].get_rect(),
+            gs.CHAR1_WALK_RIGHT[2].get_rect(),
+            gs.CHAR1_WALK_RIGHT[3].get_rect(),
+            gs.CHAR1_WALK_RIGHT[4].get_rect(),
+            gs.CHAR1_WALK_RIGHT[5].get_rect(),
+            gs.CHAR1_WALK_RIGHT[6].get_rect(),
+            gs.CHAR1_WALK_RIGHT[7].get_rect()
+        ]
 
-        # print(self.frames_rect[0])
+        self.frames_left = [
+            gs.CHAR1_WALK_LEFT[0].get_rect(),
+            gs.CHAR1_WALK_LEFT[1].get_rect(),
+            gs.CHAR1_WALK_LEFT[2].get_rect(),
+            gs.CHAR1_WALK_LEFT[3].get_rect(),
+            gs.CHAR1_WALK_LEFT[4].get_rect(),
+            gs.CHAR1_WALK_LEFT[5].get_rect(),
+            gs.CHAR1_WALK_LEFT[6].get_rect(),
+            gs.CHAR1_WALK_LEFT[7].get_rect()
+        ]
 
         self.char1_stand = gs.CHAR1_STAND
         self.char1_walk_right = gs.CHAR1_WALK_RIGHT
@@ -22,18 +38,16 @@ class Player:
         self.anim_count = None
 
         self.width, self.height = 96, 128
-        self.spawn_x, self.spawn_y = (self.size[0] - self.width) // 2, self.size[1] - self.height - 32
-        self.x, self.y = (self.size[0] - self.width) // 2, self.size[1] - self.height
-        self.speed = (2, 2)
+        self.x, self.y = (self.size[0] - self.width) // 2, self.size[1] - self.height - 32
+        self.speed = (1, 1)
         self.hp = 2
 
         self.is_right = False
         self.is_left = False
 
-        self.max_dashes = 5
-        self.right_dash_count = 8
+        self.max_dashes = 222
+        self.dash_count = 12
         self.is_right_dodge = False
-        self.left_dash_count = 8
         self.is_left_dodge = False
 
     # управление персонажем
@@ -41,14 +55,14 @@ class Player:
         keys = pg.key.get_pressed()
 
         # передвижение персонажа вправо
-        if keys[pg.K_d] and self.spawn_x < self.size[0] - self.width - self.barrier:
-            self.spawn_x += self.speed[0]
+        if keys[pg.K_d] and self.x < self.size[0] - self.width - self.barrier:
+            self.x += self.speed[0]
             self.x += self.speed[0]
             self.is_right = True
             self.is_left = False
         # передвижение персонажа влево
-        elif keys[pg.K_a] and self.spawn_x > self.barrier:
-            self.spawn_x -= self.speed[0]
+        elif keys[pg.K_a] and self.x > self.barrier:
+            self.x -= self.speed[0]
             self.x -= self.speed[0]
             self.is_right = False
             self.is_left = True
@@ -78,55 +92,55 @@ class Player:
                 self.is_right = False
                 self.is_left = False
 
-        if self.spawn_x > self.size[0] - self.width - self.barrier:
-            self.spawn_x = self.size[0] - self.width - self.barrier
-        if self.spawn_x < self.barrier:
-            self.spawn_x = self.barrier
+        if self.x > self.size[0] - self.width - self.barrier:
+            self.x = self.size[0] - self.width - self.barrier
+        if self.x < self.barrier:
+            self.x = self.barrier
 
         if self.anim_count + 1 >= 60:
             self.anim_count = 0
 
     # перекат вправо
     def dodge_right(self):
-        if self.right_dash_count >= 0:
-            self.spawn_x += self.right_dash_count * 2
-            self.right_dash_count -= 1
+        if self.dash_count >= 0:
+            self.x += self.dash_count * 2
+            self.dash_count -= 1
         else:
-            self.right_dash_count = 8
+            self.dash_count = 12
             self.is_right_dodge = False
             self.max_dashes -= 1
 
     # перекат влево
     def dodge_left(self):
-        if self.left_dash_count >= 0:
-            self.spawn_x -= self.left_dash_count * 2
-            self.left_dash_count -= 1
+        if self.dash_count >= 0:
+            self.x -= self.dash_count * 2
+            self.dash_count -= 1
         else:
-            self.left_dash_count = 8
+            self.dash_count = 12
             self.is_left_dodge = False
             self.max_dashes -= 1
 
     def draw(self):
         if self.is_right_dodge is False and self.is_left_dodge is False:
             if self.is_right:
-                self.win.blit(self.char1_walk_right[self.anim_count // 8], (self.spawn_x, self.spawn_y))
+                self.win.blit(self.char1_walk_right[self.anim_count // 8], (self.x, self.y))
                 self.anim_count += 1
             elif self.is_left:
-                self.win.blit(self.char1_walk_left[self.anim_count // 8], (self.spawn_x, self.spawn_y))
+                self.win.blit(self.char1_walk_left[self.anim_count // 8], (self.x, self.y))
                 self.anim_count += 1
             else:
-                self.win.blit(self.char1_stand, (self.spawn_x, self.spawn_y))
+                self.win.blit(self.char1_stand, (self.x, self.y))
 
         else:
             if self.is_right_dodge:
-                self.win.blit(self.char1_dodge_right, (self.spawn_x, self.spawn_y))
+                self.win.blit(self.char1_dodge_right, (self.x, self.y))
             elif self.is_left_dodge:
-                self.win.blit(self.char1_dodge_left, (self.spawn_x, self.spawn_y))
+                self.win.blit(self.char1_dodge_left, (self.x, self.y))
 
 
 class Bomb:
 
-    def __init__(self, window, size, barrier):
+    def __init__(self, window, size, barrier, speed):
         import random
         self.win, self.size, self.barrier = window, size, barrier
 
@@ -140,10 +154,10 @@ class Bomb:
         self.x = self.bomb_rect.centerx
         self.y = self.bomb_rect.centery
 
-        self.speed_y = 5
+        self.speed = speed
 
     def draw(self):
-        self.bomb_rect = self.bomb_rect.move(0, self.speed_y)
+        self.bomb_rect = self.bomb_rect.move(0, self.speed[1])
         self.win.blit(self.bomb_img, self.bomb_rect)
 
 
